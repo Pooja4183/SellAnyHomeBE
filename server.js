@@ -29,10 +29,10 @@ app.get('/products', (req, res) => {
 // Static Files
 if (process.env.NODE_ENV === 'production') {
   app.use(
-    express.static(path.join(__dirname, '../../../sereneFrontend/build'))
+    express.static(path.join(__dirname, '../../../sellanyhome_fe/build'))
   );
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'sereneFrontend/build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'sellanyhome_fe/build', 'index.html'));
   });
 }
 
