@@ -5,17 +5,24 @@ const propertyRouter = require('express').Router(),
  * Creates a new property.
  */
 propertyRouter.post('', (req, res, next) => {
-  const property = new propertyDB({
+
+   const property = new propertyDB({
     id: req.body.id,
+    homeType: req.body.homeType,
+    isBuy: req.body.isBuy,
+    bed: req.body.bed,
+    bath: req.body.bath,
     price: req.body.price,
+    currency: req.body.currency,
+    sqFt: req.body.sqFt,
+    address: req.body.address,
+    city: req.body.city,
+    state: req.body.state,
+    description: req.body.description,
     img1: req.body.img1,
     img2: req.body.img2,
-    propertyName: req.body.propertyName,
-    brand: req.body.brand,
-    discountPrice: req.body.discountPrice,
-    discountLable: req.body.discountLable,
-    rating: req.body.rating,
-    sale: req.body.sale,
+   
+    
   });
 
   property.save();
