@@ -8,12 +8,21 @@ const exclusiveRouter = require('express').Router(),
  */
 exclusiveRouter.get('/', (req, res, next) => {
   console.log("Fetching...")
-  propertyDB.find().limit(3).then((docs) => {
-    res.status(200).json({
-      message: 'data fetched successfully!',
-      property: docs,
+
+  propertyDB.aggregate([
+    { $sample: { size: 3 } }
+  ])
+    .then((results) => {
+        res.status(200).json({
+            property: results,
+          });
+    })
+    .catch((error) => {
+        res.status(500).json({
+            error: error,
+          });
     });
-  });
+  
 });
 
 /**
@@ -22,7 +31,6 @@ exclusiveRouter.get('/', (req, res, next) => {
 exclusiveRouter.get('/:id', (req, res, next) => {
   propertyDB.findById(req.params.id).then((propertydb) => {
     res.status(200).json({
-      message: 'Id fetched successfully!',
       property: propertyid,
     });
   });
