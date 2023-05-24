@@ -19,11 +19,11 @@ const propertySchema = mongoose.Schema({
 
 // Define a text index on the name and description fields
 propertySchema.index({
-  homeType: "text",
-  description: "text",
+  //homeType: "text",
+  //description: "text",
   city: "text",
-  address: "text",
-  state: "text",
+  //address: "text",
+  //state: "text",
 });
 
 propertySchema.method("transform", () => {
