@@ -17,4 +17,5 @@ const connect = () => {
     });
 };
 
+mongoose.set('debug', true);
 module.exports = { connect };

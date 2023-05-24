@@ -1,6 +1,6 @@
 const propertyRouter = require('express').Router(),
   propertyDB = require('../model/property');
-
+const propertySearchRouter= require('./propertySearchService');
 /**
  * Creates a new property.
  */
@@ -35,14 +35,22 @@ propertyRouter.post('', (req, res, next) => {
 /**
  * Returns list of propertys
  */
-propertyRouter.get('/', (req, res, next) => {
-  console.log("Fetching...")
-  propertyDB.find().then((docs) => {
-    res.status(200).json({
-      message: 'data fetched successfully!',
-      property: docs,
+propertyRouter.get('', async (req, res, next) => {
+  const { search } = req.query;
+  
+ // console.log("Searching in property...", search, search == null, search != null, search == undefined, search == '', search.length);
+  if(search) {
+     propertySearchRouter(req,res, next);
+  } else {
+    console.log("Fetching...")
+    propertyDB.find().then((docs) => {
+      res.status(200).json({
+        message: 'Data Fetched Successfully',
+        property: docs,
+      });
     });
-  });
+  }
+
 });
 
 /**
