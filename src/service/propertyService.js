@@ -1,6 +1,10 @@
 const propertyRouter = require('express').Router(),
-  propertyDB = require('../model/property');
+{propertyDB, totalRecords} = require("../model/property");
 const propertySearchRouter= require('./propertySearchService');
+
+
+
+
 /**
  * Creates a new property.
  */
@@ -40,7 +44,7 @@ propertyRouter.get('', async (req, res, next) => {
   
  // console.log("Searching in property...", search, search == null, search != null, search == undefined, search == '', search.length);
   if(search) {
-     propertySearchRouter(req,res, next);
+     propertySearchRouter(req,res);
   } else {
     console.log("Fetching...")
     propertyDB.find().then((docs) => {
