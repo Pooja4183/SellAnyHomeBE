@@ -1,5 +1,5 @@
 const exclusiveRouter = require('express').Router(),
-  propertyDB = require('../model/property');
+  {propertyDB} = require('../model/property');
 
 
 

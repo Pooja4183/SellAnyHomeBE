@@ -36,4 +36,23 @@ propertySchema.method("transform", () => {
   return obj;
 });
 
-module.exports = mongoose.model("propertydbs", propertySchema);
+const propertyDB = mongoose.model("propertydbs", propertySchema);
+
+async function  totalRecords() {
+  let total = 0;
+ await propertyDB.countDocuments()
+    .then((count) => {
+      total = count;
+      console.log("Count::", total);
+    })
+    .catch((error) => {
+      console.error(error);
+      // Handle the error
+    });
+    console.log("Records", total);
+  return total;
+}
+
+
+
+module.exports = {propertyDB, totalRecords};
