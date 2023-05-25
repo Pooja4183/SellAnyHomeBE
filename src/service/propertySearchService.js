@@ -32,9 +32,7 @@ propertySearchRouter.get("/", async (req, res) => {
           { city: { $regex: new RegExp(search, "i") } },
           { state: { $regex: new RegExp(search, "i") } },
         ],
-        $and:[
-          {homeType:  { $regex: new RegExp(search, "i") }},
-        ],
+       
         
       })
       .skip(skip)
