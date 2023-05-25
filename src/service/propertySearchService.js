@@ -15,30 +15,41 @@ propertySearchRouter.get("/", async (req, res) => {
   console.log("Searching...", search);
 
   /* Filter */
+  const filter = {
+    $or: [
+      { address: { $regex: new RegExp(search, "i") } },
+      { city: { $regex: new RegExp(search, "i") } },
+      { state: { $regex: new RegExp(search, "i") } },
+    ],
+  };
 
+  /* Additional Filters*/
   const homeType = req.query.homeType;
-  console.log("HomeType::", homeType);
-  const minPrice =  req.query.minPrice || 0;
-  console.log("MinPrince::", minPrice);
-  const maxPrice = req.query.maxPrice || undefined;
-  console.log("MaxPrice::", minPrice);
+  const minPrice =  req.query.minPrice;
+  const maxPrice = req.query.maxPrice;
+  if (homeType) {
+    filter.homeType = homeType;
+  }
+
+  if (minPrice || maxPrice) {
+    filter.price = {};
+    if (minPrice) {
+      filter.price.$gte = minPrice;
+    }
+    if (maxPrice) {
+      filter.price.$lte = maxPrice;
+    }
+  }
+
 
   try {
     // Perform a case-insensitive search using regular expressions
     const results = await propertyDB
-      .find({
-        $or: [
-          { address: { $regex: new RegExp(search, "i") } },
-          { city: { $regex: new RegExp(search, "i") } },
-          { state: { $regex: new RegExp(search, "i") } },
-        ],
-       
-        
-      })
+      .find(filter)
       .skip(skip)
       .limit(limit);
-      const tr =  await totalRecords();
-      console.log("Tr:", tr);
+       const tr =  await totalRecords();
+      // console.log("Tr:", tr);
       const totalPages = Math.ceil( tr/ limit);
 
     // Send the results as the response
@@ -47,7 +58,7 @@ propertySearchRouter.get("/", async (req, res) => {
       page: page,
       pageSize: limit,
       records: results.length,
-      totalRecords: tr,
+     // totalRecords: tr,
       numberofpages: totalPages,
       property: results,
     });
