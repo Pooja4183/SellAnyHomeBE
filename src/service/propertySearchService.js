@@ -40,12 +40,33 @@ propertySearchRouter.get("/", async (req, res) => {
       filter.price.$lte = maxPrice;
     }
   }
+/* Sorting */
+let sort = req.query.sort.toUpperCase();
+console.log("Sort Query::", sort, sort.length, "High to Low".toUpperCase(), "High to Low".length, sort=="High to Low".toUpperCase());
+let sortOrder = "asc"; // Default sort order is ascending
+
+if (sort == "High to Low".toUpperCase()) {
+  sort = "price";
+  sortOrder = "desc";
+} else if (sort == "Low to High".toUpperCase()) {
+  sort = "price";
+} else if (sort == 'Popular'.toUpperCase()){
+  sort = "sqFt";
+} else {
+  sort = "homeType";
+}
+const sortField = sort || "homeType"; // Default sort field is 'price'
+console.log("Sort Field::", sortField, sortField.length,"::", sort, sort.length, sortField==sort);
+const sortOptions = {};
+sortOptions[sortField] = sortOrder === "desc" ? -1 : 1;
+
 
 
   try {
     // Perform a case-insensitive search using regular expressions
     const results = await propertyDB
       .find(filter)
+      .sort(sortOptions)
       .skip(skip)
       .limit(limit);
        const tr =  await totalRecords();
