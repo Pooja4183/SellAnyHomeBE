@@ -41,7 +41,7 @@ propertyRouter.post('', (req, res, next) => {
  */
 propertyRouter.get('', async (req, res, next) => {
   const { search } = req.query;
-  
+  console.log("Search::",  req.query);
  // console.log("Searching in property...", search, search == null, search != null, search == undefined, search == '', search.length);
   if(search) {
      propertySearchRouter(req,res);

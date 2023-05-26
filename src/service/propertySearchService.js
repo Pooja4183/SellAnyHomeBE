@@ -6,40 +6,87 @@ const propertySearchRouter = require("express").Router(),
  */
 propertySearchRouter.get("/", async (req, res) => {
   /* Pagination */
-  const page = req.query.page || 1; // Current page number
+  let page = req.query.page || 1; // Current page number
   const limit = req.query.size || 10; // Number of items per page
-  const skip = (page - 1) * limit; // Calculate the number of items to skip
+  if(page==0){
+    page=1;
+  }
+  let skip = (page - 1) * limit; // Calculate the number of items to skip
+  console.log("PLS",page, limit, skip);
+ 
 
   /* Search */
   const { search } = req.query;
   console.log("Searching...", search);
 
   /* Filter */
+  const filter = {
+    $or: [
+      { address: { $regex: new RegExp(search, "i") } },
+      { city: { $regex: new RegExp(search, "i") } },
+      { state: { $regex: new RegExp(search, "i") } },
+    ],
+  };
 
+  /* Additional Filters*/
   const homeType = req.query.homeType;
-  console.log("HomeType::", homeType);
-  const minPrice =  req.query.minPrice || 0;
-  console.log("MinPrince::", minPrice);
-  const maxPrice = req.query.maxPrice || undefined;
-  console.log("MaxPrice::", minPrice);
+  const minPrice =  req.query.minPrice;
+  const maxPrice = req.query.maxPrice;
+  if (homeType) {
+    filter.homeType = homeType;
+  }
+
+  if (minPrice || maxPrice) {
+    filter.price = {};
+    if (minPrice) {
+      filter.price.$gte = minPrice;
+    }
+    if (maxPrice) {
+      filter.price.$lte = maxPrice;
+    }
+  }
+/* Sorting */
+const sortField =  req.query.sort || "homeType"; // Default sort field is 'price'
+let sort = sortField.toUpperCase();
+console.log("Sort Query::", sort, sort.length, "High to Low".toUpperCase(), "High to Low".length, sort=="High to Low".toUpperCase());
+let sortOrder = "asc"; // Default sort order is ascending
+
+if (sort == "High to Low".toUpperCase()) {
+  sort = "price";
+  sortOrder = "desc";
+} else if (sort == "Low to High".toUpperCase()) {
+  sort = "price";
+} else if (sort == 'Popular'.toUpperCase()){
+  sort = "sqFt";
+} else {
+  sort = "homeType";
+}
+
+console.log("Sort Field::", sortField, sortField.length,"::", sort, sort.length, sortField==sort);
+const sortOptions = {};
+sortOptions[sort] = sortOrder === "desc" ? -1 : 1;
+
+
 
   try {
+
+    // Perform a case-insensitive search using regular expressions, apply the filters, and sort the results
+    const query = propertyDB.find(filter);
+    const totalRecords = await query.countDocuments(); // Total number of records matching the query
+
+    // Calculate total number of pages based on total records and limit per page
+    const totalPages = Math.ceil(totalRecords / limit);
+
     // Perform a case-insensitive search using regular expressions
     const results = await propertyDB
-      .find({
-        $or: [
-          { address: { $regex: new RegExp(search, "i") } },
-          { city: { $regex: new RegExp(search, "i") } },
-          { state: { $regex: new RegExp(search, "i") } },
-        ],
-       
-        
-      })
+      .find(filter)
+      .sort(sortOptions)
       .skip(skip)
-      .limit(limit);
-      const tr =  await totalRecords();
-      console.log("Tr:", tr);
-      const totalPages = Math.ceil( tr/ limit);
+      .limit(limit)
+      .exec();
+   //    const tr =  await totalRecords();
+      // console.log("Tr:", tr);
+     // const totalPages = Math.ceil( tr/ limit);
 
     // Send the results as the response
     res.status(200).json({
@@ -47,7 +94,7 @@ propertySearchRouter.get("/", async (req, res) => {
       page: page,
       pageSize: limit,
       records: results.length,
-      totalRecords: tr,
+      totalRecords: totalRecords,
       numberofpages: totalPages,
       property: results,
     });
