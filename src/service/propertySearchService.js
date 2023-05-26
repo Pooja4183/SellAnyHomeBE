@@ -12,7 +12,6 @@ propertySearchRouter.get("/", async (req, res) => {
     page=1;
   }
   let skip = (page - 1) * limit; // Calculate the number of items to skip
-  console.log("PLS",page, limit, skip);
  
 
   /* Search */
@@ -48,7 +47,6 @@ propertySearchRouter.get("/", async (req, res) => {
 /* Sorting */
 const sortField =  req.query.sort || "homeType"; // Default sort field is 'price'
 let sort = sortField.toUpperCase();
-console.log("Sort Query::", sort, sort.length, "High to Low".toUpperCase(), "High to Low".length, sort=="High to Low".toUpperCase());
 let sortOrder = "asc"; // Default sort order is ascending
 
 if (sort == "High to Low".toUpperCase()) {
@@ -62,7 +60,6 @@ if (sort == "High to Low".toUpperCase()) {
   sort = "homeType";
 }
 
-console.log("Sort Field::", sortField, sortField.length,"::", sort, sort.length, sortField==sort);
 const sortOptions = {};
 sortOptions[sort] = sortOrder === "desc" ? -1 : 1;
 
@@ -84,9 +81,7 @@ sortOptions[sort] = sortOrder === "desc" ? -1 : 1;
       .skip(skip)
       .limit(limit)
       .exec();
-   //    const tr =  await totalRecords();
-      // console.log("Tr:", tr);
-     // const totalPages = Math.ceil( tr/ limit);
+
 
     // Send the results as the response
     res.status(200).json({
