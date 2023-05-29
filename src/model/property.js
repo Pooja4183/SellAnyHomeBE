@@ -15,6 +15,14 @@ const propertySchema = mongoose.Schema({
   description: { type: String,  },
   img1: { type: String },
   img2: { type: String },
+  yearBuilt: { type: Number },
+  contactName: { type: String },
+  contactEmail: { type: String },
+  contactPhone: { type: String },
+  sellerType: { type: String },
+  isListed:{ type: String },
+  sellDuration: { type: String },
+  status: { type: String }
 });
 
 // Define a text index on the name and description fields
