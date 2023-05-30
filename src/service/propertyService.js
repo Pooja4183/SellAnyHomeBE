@@ -73,7 +73,7 @@ propertyRouter.get("/:id", (req, res, next) => {
   propertyDB.findById(req.params.id).then((propertydb) => {
     res.status(200).json({
       message: "Id fetched successfully!",
-      property: propertyid,
+      property: req.params.id,
     });
   });
 });
