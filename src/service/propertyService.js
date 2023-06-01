@@ -24,6 +24,7 @@ propertyRouter.post("", (req, res, next) => {
     city: req.body.city,
     state: req.body.state,
     description: req.body.description,
+    images: req.body.images,
     img1: req.body.img1,
     img2: req.body.img2,
     yearBuilt: req.body.yearBuilt,

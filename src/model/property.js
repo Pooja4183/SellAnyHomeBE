@@ -13,6 +13,7 @@ const propertySchema = mongoose.Schema({
   city: { type: String },
   state: { type: String },
   description: { type: String,  },
+  images: [{ type: String }],
   img1: { type: String },
   img2: { type: String },
   yearBuilt: { type: Number },
