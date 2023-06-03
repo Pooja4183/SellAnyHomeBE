@@ -10,7 +10,7 @@ const propertySearchRouter = require("./propertySearchService");
 /**
  * Creates a new property.
  */
-propertyRouter.post("", (req, res, next) => {
+propertyRouter.post("", async (req, res, next) => {
   const property = new propertyDB({
     id: req.body.id,
     homeType: req.body.homeType,
@@ -36,11 +36,11 @@ propertyRouter.post("", (req, res, next) => {
     sellDuration: req.body.duration,
     status: req.body.status || "DRAFT",
   });
-
+  console.log("Called #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
   property.save();
-  console.log(property);
+  //console.log(property);
 
-  sendEmail(property);
+  await sendEmail(property);
 
   res.status(201).json({
     message: "property data added successfully",

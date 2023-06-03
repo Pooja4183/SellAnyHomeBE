@@ -15,7 +15,7 @@ const mailOptions = {
   to: process.env.TO,
 };
 
-const sendEmail = (property) => {
+const sendEmail = async(property) => {
   const subjectTemplate = process.env.SUBJECT;
   const subject = subjectTemplate
     .replace("${property.contactName}", property.contactName);
