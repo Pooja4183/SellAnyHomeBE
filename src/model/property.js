@@ -12,6 +12,7 @@ const propertySchema = mongoose.Schema({
   address: { type: String ,  text: true },
   city: { type: String },
   state: { type: String },
+  title: {type: String},
   description: { type: String,  },
   images: [{ type: String }],
   img1: { type: String },
@@ -23,6 +24,7 @@ const propertySchema = mongoose.Schema({
   sellerType: { type: String },
   isListed:{ type: String },
   sellDuration: { type: String },
+  amenities: [{ type: String }],
   status: { type: String }
 });
 
