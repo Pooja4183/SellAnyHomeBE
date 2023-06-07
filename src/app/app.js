@@ -8,6 +8,7 @@ const propertyRoutes = require('../service/propertyService');
 const propertySearchRoutes = require('../service/propertySearchService');
 const neighbourRoutes = require('../service/neighbourService');
 const exclusiveRoutes = require('../service/exclusiveService');
+const contactRoutes = require('../service/contactService');
 
 const mongo = require('../config/app-mongo.js');
 
@@ -37,5 +38,6 @@ app.use('/api/property', propertyRoutes);
 app.use('/api/search', propertySearchRoutes);
 app.use('/api/neighbour', neighbourRoutes);
 app.use('/api/exclusive', exclusiveRoutes);
+app.use('/api/contact', contactRoutes);
 
 module.exports = app;
