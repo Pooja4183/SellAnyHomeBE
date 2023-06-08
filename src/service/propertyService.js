@@ -1,6 +1,6 @@
 const propertyRouter = require("express").Router(),
-  { propertyDB, totalRecords } = require("../model/property");
-const sendEmail = require("../config/email");
+  { propertyDB } = require("../model/property");
+const {sendEmail} = require("../config/email");
 const propertySearchRouter = require("./propertySearchService");
 
 /**
