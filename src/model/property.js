@@ -26,6 +26,15 @@ const propertySchema = mongoose.Schema({
   sellDuration: { type: String },
   amenities: [{ type: String }],
   status: { type: String }
+},
+{
+  toJSON: {
+    transform: function (doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.__v;
+    }
+  }
 });
 
 // Define a text index on the name and description fields
@@ -37,15 +46,6 @@ propertySchema.index({
   //state: "text",
 });
 
-propertySchema.method("transform", () => {
-  const obj = this.toObject();
-
-  //Rename fields
-  obj.id = obj._id;
-  delete obj._id;
-
-  return obj;
-});
 
 const propertyDB = mongoose.model("propertydbs", propertySchema);
 
