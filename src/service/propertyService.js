@@ -32,7 +32,7 @@ propertyRouter.post("", async (req, res, next) => {
   }
 });
 
-propertyRouter.put("/:id", async (req, res) => {
+propertyRouter.put("/:id", async (req, res, next) => {
   try {
     const propertyId = req.params.id;
     const updates = req.body;
