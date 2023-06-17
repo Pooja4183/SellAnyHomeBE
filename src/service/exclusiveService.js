@@ -13,8 +13,13 @@ exclusiveRouter.get('/', (req, res, next) => {
     { $sample: { size: 3 } }
   ])
     .then((results) => {
+       // Modify the output to convert _id to id and remove __v field
+       const modifiedResults = results.map((result) => {
+        const { _id, __v, ...rest } = result;
+        return { id: _id, ...rest };
+      });
         res.status(200).json({
-            property: results,
+            property: modifiedResults,
           });
     })
     .catch((error) => {
@@ -31,7 +36,7 @@ exclusiveRouter.get('/', (req, res, next) => {
 exclusiveRouter.get('/:id', (req, res, next) => {
   propertyDB.findById(req.params.id).then((propertydb) => {
     res.status(200).json({
-      property: propertyid,
+      property: propertydb,
     });
   });
 });

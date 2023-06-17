@@ -34,7 +34,13 @@ const propertySchema = mongoose.Schema({
       delete ret._id;
       delete ret.__v;
     }
-  }
+  }, toObject: {
+    transform: function(doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.__v;
+    }
+  },
 });
 
 // Define a text index on the name and description fields
