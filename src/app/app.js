@@ -9,6 +9,7 @@ const propertySearchRoutes = require('../service/propertySearchService');
 const neighbourRoutes = require('../service/neighbourService');
 const exclusiveRoutes = require('../service/exclusiveService');
 const contactRoutes = require('../service/contactService');
+const agentRoutes = require('../service/agentService');
 
 const mongo = require('../config/app-mongo.js');
 
@@ -39,5 +40,6 @@ app.use('/api/search', propertySearchRoutes);
 app.use('/api/neighbour', neighbourRoutes);
 app.use('/api/exclusive', exclusiveRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/agent', agentRoutes);
 
 module.exports = app;
