@@ -9,6 +9,8 @@ agentRouter.post("", async (req, res, next) => {
   const agent = new agentDB({
     ...req.body,
     status: req.body.status || "DRAFT", // Two values can be used here DRAFT and APPROVED
+    createdAt: Date.now(),
+    updatedAt:  Date.now()
   });
  
   agent.save();

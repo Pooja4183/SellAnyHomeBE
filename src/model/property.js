@@ -25,7 +25,9 @@ const propertySchema = mongoose.Schema({
   isListed:{ type: String },
   sellDuration: { type: String },
   amenities: [{ type: String }],
-  status: { type: String }
+  status: { type: String },
+  createdAt: { type: Date },
+  updatedAt: { type: Date, default: Date.now }
 },
 {
   toJSON: {

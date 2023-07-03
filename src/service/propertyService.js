@@ -16,6 +16,8 @@ propertyRouter.post("", async (req, res, next) => {
 
       sellDuration: req.body.duration,
       status: req.body.status || "DRAFT",
+      createdAt: Date.now(),
+      updatedAt:  Date.now()
     });
 
     property.save();
