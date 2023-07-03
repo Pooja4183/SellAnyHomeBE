@@ -71,6 +71,9 @@ propertySearchRouter.get("/", async (req, res) => {
     sort = "price";
   } else if (sort == "Popular".toUpperCase()) {
     sort = "sqFt";
+  } else if (sort == "latest".toUpperCase()) {
+    sort = "updatedAt";
+    sortOrder = "desc";
   } else {
     sort = "homeType";
   }
