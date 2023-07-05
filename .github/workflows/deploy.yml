@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy to Server
-        uses: SellAnyHomeBE/ssh-action@main
+        uses: ./SellAnyHomeBE
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
