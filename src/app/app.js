@@ -15,6 +15,7 @@ const mongo = require('../config/app-mongo.js');
 
 mongo.connect();
 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
