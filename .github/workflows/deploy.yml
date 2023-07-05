@@ -24,4 +24,4 @@ jobs:
           key: ${{ secrets.SSHKEY }}
           script: "cd ~/project_folder_name && ./.scripts/deploy.sh"
 
-          ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID5A0p1N1vsMbzmndiFsz5ZtzJWlERqct7SjKtRiVpwp github
+       #   ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID5A0p1N1vsMbzmndiFsz5ZtzJWlERqct7SjKtRiVpwp github
