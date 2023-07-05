@@ -1,7 +1,6 @@
 const express = require('express'),
   bodyParser = require('body-parser'),
-  app = express(),
-  fs = require('fs');
+  app = express();
 
 const categoryRoutes = require('../service/categoryService');
 const propertyRoutes = require('../service/propertyService');
