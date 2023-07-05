@@ -19,6 +19,8 @@ contactRouter.post("", async (req, res, next) => {
     moreInfo: req.body.moreInfo,
     propertyId: req.body.propertyId,
     status: req.body.status || "INITIATED", // Two values can be used here INITIATED and DONE
+    createdAt: Date.now(),
+    updatedAt:  Date.now()
   });
  
   contact.save();

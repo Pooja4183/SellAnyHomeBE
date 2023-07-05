@@ -7,7 +7,9 @@ const agentSchema = mongoose.Schema({
   email: { type: String, require: true  },
   phone: { type: String, require: true  },
   salesVolume:{ type: String },
-  status: { type: String }
+  status: { type: String },
+  createdAt: { type: Date },
+  updatedAt: { type: Date, default: Date.now }
 },
 {
   toJSON: {

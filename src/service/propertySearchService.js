@@ -13,7 +13,7 @@ propertySearchRouter.get("/", async (req, res) => {
   }
   let skip = (page - 1) * limit; // Calculate the number of items to skip
 
-  const { search, status } = req.query;
+  const { search, status, isBuy } = req.query;
   /* Search */
   console.log("Search::", req.query);
 
@@ -50,6 +50,10 @@ propertySearchRouter.get("/", async (req, res) => {
     filter.homeType = homeType;
   }
 
+  if(isBuy){
+    filter.isBuy = isBuy;
+  }
+
   if (minPrice || maxPrice) {
     filter.price = {};
     if (minPrice) {
@@ -71,6 +75,9 @@ propertySearchRouter.get("/", async (req, res) => {
     sort = "price";
   } else if (sort == "Popular".toUpperCase()) {
     sort = "sqFt";
+  } else if (sort == "latest".toUpperCase()) {
+    sort = "updatedAt";
+    sortOrder = "desc";
   } else {
     sort = "homeType";
   }
@@ -80,7 +87,7 @@ propertySearchRouter.get("/", async (req, res) => {
 
   /* Headers */
   const propertyFields = Object.keys(propertyDB.schema.obj);
-  console.log(propertyFields);
+  console.debug(propertyFields);
 
   try {
     // Perform a case-insensitive search using regular expressions, apply the filters, and sort the results

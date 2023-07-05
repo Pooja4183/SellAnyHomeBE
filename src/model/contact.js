@@ -8,7 +8,9 @@ const contactSchema = mongoose.Schema({
   buyerPhone: { type: String, require: true  },
   moreInfo: {type: String},
   propertyId: {type: String, require: true },
-  status: { type: String }
+  status: { type: String },
+  createdAt: { type: Date },
+  updatedAt: { type: Date, default: Date.now }
 });
 
 // Define a text index on the name and description fields
