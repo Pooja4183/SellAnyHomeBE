@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy to Server
-        uses: appleboy/ssh-action@main
+        uses: pooja4183/ssh-action@main
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
