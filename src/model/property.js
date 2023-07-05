@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const propertySchema = mongoose.Schema({
   id: { type: String, require: true },
   homeType: { type: String, require: true },
-  isBuy: { type: Boolean },
+  isBuy: { type: Boolean, default: false }, // It is assumed that properties are created default by sellers
   bed: { type: Number },
   bath: { type: Number },
   price: { type: Number },
@@ -16,7 +16,6 @@ const propertySchema = mongoose.Schema({
   description: { type: String,  },
   images: [{ type: String }],
   img1: { type: String },
-  img2: { type: String },
   yearBuilt: { type: Number },
   contactName: { type: String },
   contactEmail: { type: String },
