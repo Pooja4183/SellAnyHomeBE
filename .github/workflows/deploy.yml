@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy to Server
-        uses: ../ # Use the current directory as the action path
+        uses: ./ # Use the current directory as the action path
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
