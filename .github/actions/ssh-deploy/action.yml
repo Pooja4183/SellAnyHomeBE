@@ -8,6 +8,7 @@ runs:
       uses: actions/checkout@v2
 
     - name: Deploy via SSH
+      shell: bash
       run: |
         # Connect to your server via SSH and execute deployment commands
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ~/var/www/api && ./.scripts/deploy.sh'
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSHKEY }} ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd ~/var/www/api && ./.scripts/deploy.sh'
