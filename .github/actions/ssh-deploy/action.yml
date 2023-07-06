@@ -11,6 +11,10 @@ inputs:
   ssh_host:
     description: 'SSH host'
     required: true
+  ssh_port:
+    description: 'SSH port'
+    required: false
+    default: '22'
 
 runs:
   using: "composite"
@@ -18,8 +22,15 @@ runs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Set up SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ inputs.ssh_private_key }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -t rsa "${{ inputs.ssh_host }}" >> ~/.ssh/known_hosts
+
     - name: Deploy via SSH
       shell: bash
       run: |
         # Connect to your server via SSH and execute deployment commands
-        ssh -o StrictHostKeyChecking=no -i "${{ inputs.ssh_private_key }}" "${{ inputs.ssh_user }}@${{ inputs.ssh_host }}" 'cd ~/var/www/api && ./.scripts/deploy.sh'
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -p "${{ inputs.ssh_port }}" "${{ inputs.ssh_user }}@${{ inputs.ssh_host }}" 'cd ~/var/www/api && ./.scripts/deploy.sh'
