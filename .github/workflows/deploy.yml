@@ -17,9 +17,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: Deploy to Server
         uses: ./.github/actions/ssh-deploy
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.SSHKEY }}
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSHKEY }}
+          SSH_USER: ${{ secrets.USERNAME }}
+          SSH_HOST: ${{ secrets.HOST }}
+          SSH_PORT: ${{ secrets.PORT }}
           #script: "cd ~/var/www/api && ./.scripts/deploy.sh"
