@@ -21,8 +21,9 @@ runs:
   steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
+    
     - name: Set up SSH key
+      shell: bash
       run: |
         mkdir -p ~/.ssh
         echo "${{ inputs.ssh_private_key }}" > ~/.ssh/id_rsa
