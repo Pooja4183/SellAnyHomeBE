@@ -10,7 +10,7 @@ echo "New changes copied to server !"
 echo "Installing Dependencies..."
 npm install --yes
 
-echo "PM2 Reload"
+echo "PM2 Reload for TomorrowDubai"
 pm2 reload api.tomorrowdubai
 
 echo "Deployment Finished!"
