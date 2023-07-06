@@ -16,20 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy to Server
-        run: |
-          # Change to the correct directory
-          cd /var/www/api
-
-          echo "Deployment started..."
-
-          # Pull the latest version of the app
-          git pull origin master
-          echo "New changes copied to server!"
-
-          echo "Installing Dependencies..."
-          npm install --yes
-
-          echo "PM2 Reload"
-          pm2 reload app_name/id
-
-          echo "Deployment Finished!"
+        uses: ./ # Use the current directory as the action path
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
+          script: "cd ~/var/www/api && ./.scripts/deploy.sh"
