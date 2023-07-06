@@ -1,6 +1,17 @@
 name: SSH Deploy
 description: Execute deployment commands over SSH
 
+inputs:
+  ssh_private_key:
+    description: 'SSH private key'
+    required: true
+  ssh_user:
+    description: 'SSH username'
+    required: true
+  ssh_host:
+    description: 'SSH host'
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -9,10 +20,6 @@ runs:
 
     - name: Deploy via SSH
       shell: bash
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSHKEY }}
-        SSH_USER: ${{ secrets.USERNAME }}
-        SSH_HOST: ${{ secrets.HOST }}
       run: |
         # Connect to your server via SSH and execute deployment commands
-        ssh -o StrictHostKeyChecking=no -i "$SSH_PRIVATE_KEY" "$SSH_USER@$SSH_HOST" 'cd ~/var/www/api && ./.scripts/deploy.sh'
+        ssh -o StrictHostKeyChecking=no -i "${{ inputs.ssh_private_key }}" "${{ inputs.ssh_user }}@${{ inputs.ssh_host }}" 'cd ~/var/www/api && ./.scripts/deploy.sh'
