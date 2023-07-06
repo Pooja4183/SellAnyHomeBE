@@ -1,0 +1,13 @@
+name: SSH Deploy
+description: Execute deployment commands over SSH
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Deploy via SSH
+      run: |
+        # Connect to your server via SSH and execute deployment commands
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd ~/var/www/api && ./.scripts/deploy.sh'

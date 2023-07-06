@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy to Server
-        uses: Pooja4183/SellAnyHomeBE/ssh-action@main 
+        uses: ./.github/actions/ssh-deploy
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
