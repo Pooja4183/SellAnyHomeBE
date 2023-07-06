@@ -11,6 +11,6 @@ echo "Installing Dependencies..."
 npm install --yes
 
 echo "PM2 Reload"
-pm2 reload api.tomorrowdubai/0
+pm2 reload api.tomorrowdubai
 
 echo "Deployment Finished!"
