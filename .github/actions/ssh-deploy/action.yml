@@ -29,10 +29,14 @@ runs:
         echo "${{ inputs.ssh_private_key }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -t rsa "${{ inputs.ssh_host }}" >> ~/.ssh/known_hosts
+    - name: Log in to server
+      shell: bash
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -p "${{ inputs.ssh_port }}" "${{ inputs.ssh_user }}@${{ inputs.ssh_host }}"
 
-    - name: Deploy via SSH
+    - name: Change Directory and Deploy via SSH
       shell: bash
       run: |
         # Connect to your server via SSH and execute deployment commands
-        # ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -p "${{ inputs.ssh_port }}" "${{ inputs.ssh_user }}@${{ inputs.ssh_host }}" 'cd ~/var/www/api && ./.scripts/deploy.sh'
-        ssh -t -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -p 22 root@191.101.3.99 'bash -s' < deploy_remote.sh
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -p "${{ inputs.ssh_port }}" "${{ inputs.ssh_user }}@${{ inputs.ssh_host }}" 'cd ~/var/www/api && ./.scripts/deploy.sh'
+        #ssh -t -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -p 22 root@191.101.3.99 'bash -s' < deploy_remote.sh
