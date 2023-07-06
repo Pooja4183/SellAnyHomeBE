@@ -1,6 +1,17 @@
 name: SSH Deploy
 description: Execute deployment commands over SSH
 
+inputs:
+  ssh_private_key:
+    description: 'SSH private key'
+    required: true
+  ssh_user:
+    description: 'SSH username'
+    required: true
+  ssh_host:
+    description: 'SSH host'
+    required: true
+
 runs:
   using: "composite"
   steps:
