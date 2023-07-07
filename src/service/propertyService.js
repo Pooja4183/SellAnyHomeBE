@@ -95,4 +95,17 @@ propertyRouter.get("/:id", async (req, res, next) => {
   }
 });
 
+propertyRouter.delete("/:id", async (req, res, next) => {
+
+  try {
+    const response = await propertyDB.deleteOne({ _id: req.params.id });
+    res.status(200).json({
+      message: "Id deleted successfully!",
+      property: response,
+    });
+  } catch (error) {
+    console.error("Error deleting property by id:", error);
+    res.status(500).json({ error: "An error occurred while deleting the property by id" });
+  }
+});
 module.exports = propertyRouter;
