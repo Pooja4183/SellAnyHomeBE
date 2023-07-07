@@ -14,12 +14,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Deploy to Server
-        uses: ../ # Use the current directory as the action path
+        uses: ./.github/actions/ssh-deploy
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.SSHKEY }}
-          script: "cd ~/var/www/api && ./.scripts/deploy.sh"
+          ssh_private_key: ${{ secrets.SSHKEY }}
+          ssh_user: ${{ secrets.USERNAME }}
+          ssh_host: ${{ secrets.HOST }}
+          ssh_port: ${{ secrets.PORT }}
