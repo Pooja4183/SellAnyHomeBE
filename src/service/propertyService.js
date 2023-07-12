@@ -7,6 +7,7 @@ const propertySearchRouter = require("./propertySearchService");
  * Creates a new property.
  */
 propertyRouter.post("", async (req, res, next) => {
+  console.log("Inside POST:", req.body);
   try {
     const property = new propertyDB({
       ...req.body,
@@ -35,14 +36,14 @@ propertyRouter.post("", async (req, res, next) => {
 });
 
 propertyRouter.put("/:id", async (req, res, next) => {
+  console.log("Inside PUT", req.params.id, "body", req.body);
   try {
     const propertyId = req.params.id;
     const updates = req.body;
 
     const updatedProperty = await propertyDB.findByIdAndUpdate(
       propertyId,
-      updates,
-      { new: true }
+      updates
     );
 
     res.status(200).json({
@@ -96,7 +97,7 @@ propertyRouter.get("/:id", async (req, res, next) => {
 });
 
 propertyRouter.delete("/:id", async (req, res, next) => {
-
+  console.log("Deleting record::", req.params.id)
   try {
     const response = await propertyDB.deleteOne({ _id: req.params.id });
     res.status(200).json({
