@@ -27,7 +27,7 @@ contactSchema.method("transform", () => {
 
   //Rename fields
   obj.id = obj._id;
-  delete obj._id;
+  //delete obj._id;
 
   return obj;
 });

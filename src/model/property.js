@@ -32,13 +32,13 @@ const propertySchema = mongoose.Schema({
   toJSON: {
     transform: function (doc, ret) {
       ret.id = ret._id;
-      delete ret._id;
+      //delete ret._id;
       delete ret.__v;
     }
   }, toObject: {
     transform: function(doc, ret) {
       ret.id = ret._id;
-      delete ret._id;
+      //delete ret._id;
       delete ret.__v;
     }
   },

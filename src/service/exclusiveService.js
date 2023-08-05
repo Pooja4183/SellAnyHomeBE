@@ -16,7 +16,7 @@ exclusiveRouter.get('/', (req, res, next) => {
        // Modify the output to convert _id to id and remove __v field
        const modifiedResults = results.map((result) => {
         const { _id, __v, ...rest } = result;
-        return { id: _id, ...rest };
+        return { id: _id, _id, ...rest };
       });
         res.status(200).json({
             property: modifiedResults,
