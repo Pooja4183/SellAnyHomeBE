@@ -15,13 +15,13 @@ const agentSchema = mongoose.Schema({
   toJSON: {
     transform: function (doc, ret) {
       ret.id = ret._id;
-      delete ret._id;
+     // delete ret._id;
       delete ret.__v;
     }
   }, toObject: {
     transform: function(doc, ret) {
       ret.id = ret._id;
-      delete ret._id;
+      //delete ret._id;
       delete ret.__v;
     }
   }
@@ -32,7 +32,7 @@ agentSchema.method("transform", () => {
 
   //Rename fields
   obj.id = obj._id;
-  delete obj._id;
+  //delete obj._id;
 
   return obj;
 });
