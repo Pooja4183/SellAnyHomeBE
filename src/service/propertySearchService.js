@@ -33,7 +33,7 @@ propertySearchRouter.get("/", async (req, res) => {
   // Apply status filter if status query parameter is provided
   if (status) {
     if (status.toLowerCase() === "draft") {
-      filter.$or = [
+      filter.$and = [
         { status: { $regex: new RegExp(status, "i") } },
         { status: { $exists: false } },
       ];
