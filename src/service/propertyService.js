@@ -1,5 +1,6 @@
 const propertyRouter = require("express").Router(),
-  { propertyDB } = require("../model/property");
+  { propertyDB } = require("../model/property"),
+  agentDB  = require("../model/agent");
 const { sendEmail } = require("../config/email");
 const propertySearchRouter = require("./propertySearchService");
 
@@ -16,6 +17,9 @@ propertyRouter.post("", async (req, res, next) => {
       contactPhone: req.body.phone,
 
       sellDuration: req.body.duration,
+
+      agent: req.body.agent,
+
       status: req.body.status || "DRAFT",
       createdAt: Date.now(),
       updatedAt:  Date.now()
@@ -85,7 +89,9 @@ propertyRouter.get("", processQueryParams, async (req, res, next) => {
  */
 propertyRouter.get("/:id", async (req, res, next) => {
   try {
-    const response = await propertyDB.findById(req.params.id);
+    const response = await propertyDB.findById(req.params.id)
+    .populate('agent')
+    .exec();
     res.status(200).json({
       message: "Id fetched successfully!",
       property: response,

@@ -52,6 +52,7 @@ agentRouter.get('/', async(req, res, next) => {
   console.log("Fetching Agents...")
   try {
     const results = await agentDB.find({});
+    console.log("Agent Result::", results);
     res.status(200).json({
       message: "Agents fetched successfully",
       agents: results
@@ -63,4 +64,24 @@ agentRouter.get('/', async(req, res, next) => {
  
     
 });
+
+
+agentRouter.get('/:id', async(req, res, next) => {
+  console.log("Fetching Agents...")
+  try {
+    const results = await agentDB.findById(req.params.id);
+    console.log("Agent Result::", results);
+    res.status(200).json({
+      message: "Id fetched successfully!",
+      agents: results
+    });
+  
+  }catch (error) {
+    console.error("Error fetching agent:", error);
+    res.status(500).json({ error: "An error occurred while fetching agent id " + req.params.id });
+  }
+ 
+    
+});
+
 module.exports = agentRouter;

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const agentSchema = mongoose.Schema({
-  id: { type: String, require: true },
   img:  { type: String },
   name: { type: String, require: true  },
   email: { type: String, require: true  },
