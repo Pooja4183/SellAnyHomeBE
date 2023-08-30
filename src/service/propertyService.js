@@ -10,15 +10,6 @@ const propertySearchRouter = require("./propertySearchService");
 propertyRouter.post("", async (req, res, next) => {
   console.log("Inside POST:", req.body);
   try {
-     // Extract latitude and longitude from request body
-     const latitude = req.body.latitude;
-     const longitude = req.body.longitude;
- 
-     // Create the GeoJSON Point object for location
-     const location = {
-       type: "Point",
-       coordinates: [longitude, latitude]
-     };
  
     const property = new propertyDB({
       ...req.body,
@@ -30,7 +21,7 @@ propertyRouter.post("", async (req, res, next) => {
 
       agent: req.body.agent,
       
-      location: location, 
+      location: req.body.location, 
 
       status: req.body.status || "DRAFT",
       createdAt: Date.now(),
