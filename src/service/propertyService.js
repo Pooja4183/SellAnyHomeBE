@@ -1,5 +1,6 @@
 const propertyRouter = require("express").Router(),
-  { propertyDB } = require("../model/property");
+  { propertyDB } = require("../model/property"),
+  agentDB  = require("../model/agent");
 const { sendEmail } = require("../config/email");
 const propertySearchRouter = require("./propertySearchService");
 
@@ -9,6 +10,16 @@ const propertySearchRouter = require("./propertySearchService");
 propertyRouter.post("", async (req, res, next) => {
   console.log("Inside POST:", req.body);
   try {
+     // Extract latitude and longitude from request body
+     const latitude = req.body.latitude;
+     const longitude = req.body.longitude;
+ 
+     // Create the GeoJSON Point object for location
+     const location = {
+       type: "Point",
+       coordinates: [longitude, latitude]
+     };
+ 
     const property = new propertyDB({
       ...req.body,
       contactName: req.body.name,
@@ -16,6 +27,11 @@ propertyRouter.post("", async (req, res, next) => {
       contactPhone: req.body.phone,
 
       sellDuration: req.body.duration,
+
+      agent: req.body.agent,
+      
+      location: location, 
+
       status: req.body.status || "DRAFT",
       createdAt: Date.now(),
       updatedAt:  Date.now()
@@ -41,9 +57,23 @@ propertyRouter.put("/:id", async (req, res, next) => {
     const propertyId = req.params.id;
     const updates = req.body;
 
+     // Extract latitude and longitude from request body if available
+     const latitude = req.body.latitude;
+     const longitude = req.body.longitude;
+ 
+     // If latitude and longitude are provided, update the location field
+     if (latitude !== undefined && longitude !== undefined) {
+       updates.location = {
+         type: "Point",
+         coordinates: [longitude, latitude]
+       };
+     }
+
+     
     const updatedProperty = await propertyDB.findByIdAndUpdate(
       propertyId,
-      updates
+      updates,
+      { new: true } // To get the updated document as the result
     );
 
     res.status(200).json({
@@ -85,7 +115,9 @@ propertyRouter.get("", processQueryParams, async (req, res, next) => {
  */
 propertyRouter.get("/:id", async (req, res, next) => {
   try {
-    const response = await propertyDB.findById(req.params.id);
+    const response = await propertyDB.findById(req.params.id)
+    .populate('agent')
+    .exec();
     res.status(200).json({
       message: "Id fetched successfully!",
       property: response,

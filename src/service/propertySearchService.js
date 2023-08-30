@@ -1,5 +1,6 @@
 const propertySearchRouter = require("express").Router(),
-  { propertyDB, totalRecords } = require("../model/property");
+  { propertyDB, totalRecords } = require("../model/property"),
+  agentDB  = require("../model/agent");
 
 /**
  * Searches a property a property by id.
@@ -87,7 +88,7 @@ propertySearchRouter.get("/", async (req, res) => {
 
   /* Headers */
   const propertyFields = Object.keys(propertyDB.schema.obj);
-  console.debug(propertyFields);
+  //console.debug(propertyFields);
 
   try {
     // Perform a case-insensitive search using regular expressions, apply the filters, and sort the results
@@ -100,6 +101,7 @@ propertySearchRouter.get("/", async (req, res) => {
     // Perform a case-insensitive search using regular expressions
     const results = await propertyDB
       .find(filter)
+      .populate('agent')
       .sort(sortOptions)
       .skip(skip)
       .limit(limit)

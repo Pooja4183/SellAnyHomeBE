@@ -1,7 +1,19 @@
 const mongoose = require("mongoose");
 
+const locationSchema = mongoose.Schema({
+  type: {
+    type: String,
+    enum: ["Point"],
+    required: true
+  },
+  coordinates: {
+    type: [Number], // [longitude, latitude]
+    required: true
+  }
+});
+
+
 const propertySchema = mongoose.Schema({
-  id: { type: String, require: true },
   homeType: { type: String, require: true },
   isBuy: { type: Boolean, default: false }, // It is assumed that properties are created default by sellers
   bed: { type: Number },
@@ -24,6 +36,11 @@ const propertySchema = mongoose.Schema({
   isListed:{ type: String },
   sellDuration: { type: String },
   amenities: [{ type: String }],
+  location: {
+    type: locationSchema,
+    index: "2dsphere" // Geospatial index
+  },
+  agent: { type: mongoose.Schema.Types.ObjectId, ref: 'agentdbs' }, // Reference to the Agent model
   status: { type: String },
   createdAt: { type: Date },
   updatedAt: { type: Date, default: Date.now }
@@ -42,7 +59,8 @@ const propertySchema = mongoose.Schema({
       delete ret.__v;
     }
   },
-});
+}
+);
 
 // Define a text index on the name and description fields
 propertySchema.index({
