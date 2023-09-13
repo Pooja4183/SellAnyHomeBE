@@ -1,30 +1,29 @@
-const loginRouter = require("express").Router(),
-  agentDB = require("../model/agent");
+const loginRouter = require("express").Router();
+
+const passport = require("../config/passport");
 
 /**
- * Creates a new property.
+ * Handles user login.
  */
-loginRouter.post("", async (req, res, next) => {
-  try {
-    const filter = {};
-    console.log("Request body::", req.body);
-    filter.$and = [{ email: req.body.email }, { password: req.body.password }];
-    const result = await agentDB.findOne(filter);
-    console.log("Login Result::", result);
-    if (result !== null) {
-      res.status(200).json({
-        message: "User  is Valid !" + result,
-      });
-    } else {
-      res.status(401).json({
-        message: "Invalid Credntials"
-      });
+loginRouter.post("/", (req, res, next) => {
+  
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      return next(err); // Handle error
     }
-  } catch (error) {
-    res.status(500).json({
-      error: "An error occurred during authentication: " + error,
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Invalid credentials" });
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err); // Handle error
+      }
+      /* Removed properties such as password, id updatedAt and __v from userwopwd. */
+    ///  const {  id, ...userwopwd } = user._doc;
+
+      return res.status(200).json({ success: true, user: user });
     });
-  }
+  })(req, res, next); // Pass the request and response objects to passport.authenticate
 });
 
 module.exports = loginRouter;
