@@ -15,6 +15,8 @@ const contactRoutes = require("../service/contactService");
 const agentRoutes = require("../service/agentService");
 const loginRoutes = require("../service/loginService");
 const logoutRoutes = require("../service/logoutService");
+const userRoutes = require("../service/userService");
+const cors = require('cors');
 
 const mongo = require("../config/app-mongo.js");
 
@@ -22,6 +24,15 @@ mongo.connect();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+
+
+const corsOptions = {
+    origin: 'http://tomorrowdubai.com', // Replace with your frontend URL
+    credentials: true, // Allow cookies to be sent
+};
+
+app.use(cors(corsOptions));
 
 app.use(
   session({
@@ -35,7 +46,7 @@ app.use(passport.session());
 
 app.use((req, res, next) => {
   //console.log('Request: ' + req.body);
-  res.setHeader("Access-Control-Allow-Origin", "*");
+ // res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
@@ -58,6 +69,7 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/agent", agentRoutes);
 app.use("/api/logout", logoutRoutes);
 app.use("/api/login", loginRoutes);
+app.use("/api/user", userRoutes);
 
 
 module.exports = app;
