@@ -1,13 +1,8 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
+const User = require("../model/user");
 
-const user = {
-    id: 1, // You can use any unique identifier for the user
-    email: process.env.USER,
-    password: process.env.PASSPHRASE
-    // Other user properties...
-};
 
 passport.use(
   new LocalStrategy(
@@ -16,13 +11,14 @@ passport.use(
       try {
         console.log("Inside Passport::", email, password);
        // Check if the provided email matches the static user's email
-      if (email !== process.env.USER) {
+       const user = await User.findOne({ email });
+      if (!user) {
         return done(null, false, { message: "Invalid email or password" });
       }
       
        
         // Compare the provided password with the stored hashed password
-        const passwordMatch = await bcrypt.compare(password, process.env.PASSPHRASE);
+        const passwordMatch = await user.comparePassword(password);
 
         // If passwords match, return the user
         if (passwordMatch) {
@@ -44,12 +40,12 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  // Since the user is static, you can deserialize by user.id
-  if (id === user.id) {
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
     done(null, user);
-  } else {
-    done(null, false);
+  } catch (error) {
+    done(error);
   }
 });
 
