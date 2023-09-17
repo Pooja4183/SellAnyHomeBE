@@ -28,7 +28,13 @@ app.use(express.urlencoded({ extended: false }));
 
 
 const corsOptions = {
-    origin: 'http://www.tomorrowdubai.com', // Replace with your frontend URL
+  origin: [
+    'http://tomorrowdubai.com',
+    'https://tomorrowdubai.com',
+    'http://www.tomorrowdubai.com',
+    'https://www.tomorrowdubai.com',
+    // 'http://localhost:3000',
+],
     credentials: true, // Allow cookies to be sent
 };
 
