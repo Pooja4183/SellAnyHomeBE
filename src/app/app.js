@@ -33,7 +33,7 @@ const corsOptions = {
     'https://tomorrowdubai.com',
     'http://www.tomorrowdubai.com',
     'https://www.tomorrowdubai.com',
-    // 'http://localhost:3000',
+//    'http://localhost:3000',
 ],
     credentials: true, // Allow cookies to be sent
 };
@@ -52,7 +52,7 @@ app.use(passport.session());
 
 app.use((req, res, next) => {
   //console.log('Request: ' + req.body);
- // res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
