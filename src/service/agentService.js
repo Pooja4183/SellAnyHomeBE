@@ -84,4 +84,18 @@ agentRouter.get('/:id', async(req, res, next) => {
     
 });
 
+agentRouter.delete("/:id", async (req, res, next) => {
+  console.log("Deleting record::", req.params.id)
+  try {
+    const response = await agentDB.deleteOne({ _id: req.params.id });
+    res.status(200).json({
+      message: "Id deleted successfully!",
+      property: response,
+    });
+  } catch (error) {
+    console.error("Error deleting agent with id:", error);
+    res.status(500).json({ error: "An error occurred while deleting the agent with id" });
+  }
+});
+
 module.exports = agentRouter;
