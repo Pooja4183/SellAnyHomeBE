@@ -19,6 +19,7 @@ const propertySchema = mongoose.Schema({
   bed: { type: Number },
   bath: { type: Number },
   price: { type: Number },
+  priceOnApplication: { type: Boolean },
   currency: { type: String },
   sqFt: { type: Number },
   address: { type: String ,  text: true },
