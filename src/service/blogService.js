@@ -51,7 +51,10 @@ blogRouter.put("/:id", async (req, res, next) => {
 blogRouter.get('/', async(req, res, next) => {
   console.log("Fetching Blogs...")
   try {
-    const results = await blogDB.find({});
+    const sortOptions = {
+      sort : ["updatedAt", "desc"]
+    };
+    const results = await blogDB.find({}).sort('-updatedAt').exec();
     console.log("Blog Result::", results);
     res.status(200).json({
       message: "Blogs fetched successfully",
