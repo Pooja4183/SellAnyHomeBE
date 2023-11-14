@@ -16,6 +16,7 @@ const agentRoutes = require("../service/agentService");
 const loginRoutes = require("../service/loginService");
 const logoutRoutes = require("../service/logoutService");
 const userRoutes = require("../service/userService");
+const blogRoutes = require("../service/blogService");
 const cors = require('cors');
 
 const mongo = require("../config/app-mongo.js");
@@ -33,7 +34,7 @@ const corsOptions = {
     'https://tomorrowdubai.com',
     'http://www.tomorrowdubai.com',
     'https://www.tomorrowdubai.com',
-//    'http://localhost:3000',
+    'http://localhost:3000',
 ],
     credentials: true, // Allow cookies to be sent
 };
@@ -76,6 +77,7 @@ app.use("/api/agent", agentRoutes);
 app.use("/api/logout", logoutRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/blogs",blogRoutes);
 
 
 module.exports = app;
