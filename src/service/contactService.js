@@ -2,7 +2,6 @@ const contactRouter = require("express").Router(),
    contactDB  = require("../model/contact"),
    { propertyDB } = require("../model/property");
 const {sendContactEmail} = require("../config/email");
-const propertyService = require('./propertyService');
 
 /**
  * Creates a new property.
